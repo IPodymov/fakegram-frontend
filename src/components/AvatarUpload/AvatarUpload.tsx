@@ -2,6 +2,7 @@ import { useState, useRef, type ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
 import photoIcon from '../../assets/icons/photo-icon.svg';
+import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import styles from './AvatarUpload.module.css';
 
 export const AvatarUpload = () => {
@@ -57,7 +58,7 @@ export const AvatarUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const currentAvatar = previewUrl || user?.profilePictureUrl || 'https://via.placeholder.com/150';
+  const currentAvatar = previewUrl || user?.profilePictureUrl || profileEmptyIcon;
 
   return (
     <div className={styles.container}>
