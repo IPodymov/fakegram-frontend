@@ -8,7 +8,7 @@ import type {
   Post,
 } from "../types";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://fakegram-backend-production.up.railway.app";
 
 // Создаем axios instance
 export const api = axios.create({
