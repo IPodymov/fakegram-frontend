@@ -1,4 +1,5 @@
 import { useState, useRef, type FormEvent, type ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { registerThunk } from "../../store/thunks/authThunks";
 import profileEmptyIcon from "../../assets/icons/profile-empty-icon.svg";
@@ -6,6 +7,7 @@ import styles from "./RegisterForm.module.css";
 
 export const RegisterForm = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { loading, error } = useAppSelector((state) => state.auth);
 
   const [username, setUsername] = useState("");
@@ -90,6 +92,9 @@ export const RegisterForm = () => {
           profilePictureUrl: avatarBase64,
         })
       );
+      
+      // После успешной регистрации перенаправляем на страницу входа
+      navigate('/login');
     } catch (err) {
       console.error("Registration failed:", err);
     }
