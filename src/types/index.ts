@@ -47,6 +47,7 @@ export interface RegisterDto {
   username: string;
   email: string;
   password: string;
+  profilePictureUrl?: string;
 }
 
 export interface LoginResponse {

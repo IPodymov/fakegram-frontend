@@ -5,6 +5,57 @@
   width: 100%;
 }
 
+.avatarSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #dbdbdb;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.avatarWrapper:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarOverlay span {
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.fileInput {
+  display: none;
+}
+
 .formGroup {
   display: flex;
   flex-direction: column;
