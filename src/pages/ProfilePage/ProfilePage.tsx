@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchPostsByUserIdThunk } from '../../store/thunks/postsThunks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
-import { AvatarUpload } from '../../components/AvatarUpload/AvatarUpload';
+import { AvatarUpload, type AvatarUploadRef } from '../../components/AvatarUpload/AvatarUpload';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
@@ -16,6 +16,16 @@ export const ProfilePage = () => {
     bio: user?.bio || '',
     website: user?.website || '',
   });
+
+  // Mock data for followers/following
+  const [followersCount] = useState(40);
+  const [followingCount] = useState(51);
+  
+  const avatarUploadRef = useRef<AvatarUploadRef>(null);
+
+  const handleAddStoryClick = () => {
+    avatarUploadRef.current?.triggerFileInput();
+  };
 
   useEffect(() => {
     if (user) {
@@ -53,28 +63,60 @@ export const ProfilePage = () => {
     <div className={styles.container}>
       <div className={styles.profileHeader}>
         <div className={styles.avatarSection}>
-          <AvatarUpload />
+          <AvatarUpload ref={avatarUploadRef} />
+          <button className={styles.addStory} onClick={handleAddStoryClick} type="button">
+            +
+          </button>
         </div>
 
         <div className={styles.infoSection}>
           <div className={styles.topRow}>
             <h1 className={styles.username}>{user.username}</h1>
-            <button
-              className={styles.editButton}
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              {isEditing ? 'Отмена' : 'Редактировать профиль'}
-            </button>
           </div>
 
           <div className={styles.stats}>
             <div className={styles.stat}>
               <span className={styles.statNumber}>{userPosts.length}</span>
-              <span className={styles.statLabel}>публикаций</span>
+              <span className={styles.statLabel}>публикации</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statNumber}>{followersCount}</span>
+              <span className={styles.statLabel}>подписчики</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statNumber}>{followingCount}</span>
+              <span className={styles.statLabel}>подписки</span>
             </div>
           </div>
 
-          {isEditing ? (
+          <div className={styles.bio}>
+            {user.fullName && <div className={styles.fullName}>{user.fullName}</div>}
+            {user.bio && <div className={styles.bioText}>{user.bio}</div>}
+            {user.website && (
+              <a
+                href={user.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.website}
+              >
+                {user.website}
+              </a>
+            )}
+          </div>
+
+          <div className={styles.actionButtons}>
+            <button
+              className={styles.editButton}
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              Редактировать профиль
+            </button>
+            <button className={styles.shareButton}>
+              Поделиться профилем
+            </button>
+          </div>
+
+          {isEditing && (
             <form onSubmit={handleSubmit} className={styles.editForm}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Имя</label>
@@ -113,21 +155,6 @@ export const ProfilePage = () => {
                 Сохранить
               </button>
             </form>
-          ) : (
-            <div className={styles.bio}>
-              {user.fullName && <div className={styles.fullName}>{user.fullName}</div>}
-              {user.bio && <div className={styles.bioText}>{user.bio}</div>}
-              {user.website && (
-                <a
-                  href={user.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.website}
-                >
-                  {user.website}
-                </a>
-              )}
-            </div>
           )}
         </div>
       </div>

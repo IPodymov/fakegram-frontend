@@ -1,73 +1,186 @@
-# React + TypeScript + Vite
+# 📸 Fakegram Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Instagram-клон на React + TypeScript + Redux Toolkit
 
-Currently, two official plugins are available:
+Современное клиентское приложение для социальной сети, вдохновлённое Instagram. Построено с использованием React 19, TypeScript, Redux Toolkit и Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Возможности
 
-## React Compiler
+- ✅ **Аутентификация**: Регистрация и вход с JWT токенами
+- ✅ **Управление профилем**: Редактирование информации, загрузка аватара
+- ✅ **Публикация постов**: Создание постов с заголовком, контентом и изображением
+- ✅ **Лента постов**: Просмотр постов с лайками и комментариями
+- ✅ **Защищённые маршруты**: Авторизация для доступа к страницам
+- ✅ **Responsive дизайн**: Адаптивный интерфейс для всех устройств
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Технологический стек
 
-## Expanding the ESLint configuration
+- **React 19.2** - UI библиотека
+- **TypeScript** - Типизация
+- **Redux Toolkit** - Управление состоянием
+- **React Router DOM** - Маршрутизация
+- **Axios** - HTTP клиент
+- **Vite** - Сборщик и dev-сервер
+- **CSS Modules** - Стилизация компонентов
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Установка
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Клонирование репозитория
+git clone https://github.com/IPodymov/fakegram-frontend.git
+cd fakegram-frontend
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Установка зависимостей
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Настройка окружения
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Создайте файл `.env` в корне проекта:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_URL=https://fakegram-backend-production.up.railway.app
 ```
+
+Для локальной разработки создайте `.env.local`:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+## 🏃 Запуск проекта
+
+```bash
+# Development режим
+npm run dev
+
+# Production сборка
+npm run build
+
+# Предварительный просмотр production сборки
+npm run preview
+
+# Линтинг кода
+npm run lint
+```
+
+## 📁 Структура проекта
+
+```
+fakegram-frontend/
+├── public/              # Статические файлы
+├── src/
+│   ├── api/            # API клиент и endpoints
+│   ├── assets/         # Иконки, изображения, шрифты
+│   ├── components/     # React компоненты
+│   │   ├── Header/
+│   │   ├── LoginForm/
+│   │   ├── RegisterForm/
+│   │   ├── PostCard/
+│   │   ├── CreatePost/
+│   │   └── ...
+│   ├── pages/          # Страницы приложения
+│   │   ├── HomePage/
+│   │   ├── LoginPage/
+│   │   ├── RegisterPage/
+│   │   ├── ProfilePage/
+│   │   └── CreatePostPage/
+│   ├── store/          # Redux store
+│   │   ├── slices/     # Redux slices
+│   │   ├── thunks/     # Async actions
+│   │   └── hooks.ts    # Типизированные хуки
+│   ├── types/          # TypeScript типы
+│   ├── App.tsx         # Главный компонент
+│   └── main.tsx        # Entry point
+├── .env                # Переменные окружения
+├── LICENSE.md          # MIT лицензия
+├── TERMS_OF_SERVICE.md # Пользовательское соглашение
+└── README.md
+```
+
+## 🌐 API Integration
+
+Приложение интегрируется с [Fakegram Backend](https://github.com/IPodymov/fakegram-backend):
+
+- **Production API**: `https://fakegram-backend-production.up.railway.app`
+- **Local API**: `http://localhost:3000`
+
+### Основные endpoints:
+
+- `POST /auth/register` - Регистрация
+- `POST /auth/login` - Вход
+- `GET /posts` - Получение постов
+- `POST /posts` - Создание поста
+- `GET /users/:id` - Профиль пользователя
+- `PUT /users/:id` - Обновление профиля
+
+## 🎨 Особенности UI
+
+- Instagram-inspired дизайн
+- CSS Modules для изолированных стилей
+- Иконки из Material Design
+- Плавные анимации и переходы
+- Адаптивная вёрстка (мобильные и десктоп)
+
+## 🔐 Безопасность
+
+- JWT токены хранятся в localStorage
+- Автоматическое добавление токена к запросам (Axios interceptors)
+- Защищённые маршруты с редиректом
+- Валидация форм на клиенте
+- HTTPS для production API
+
+## 📝 Основные компоненты
+
+### Аутентификация
+- `LoginForm` - Форма входа
+- `RegisterForm` - Форма регистрации с загрузкой аватара
+- Валидация username (только английские символы)
+
+### Посты
+- `PostCard` - Карточка поста с лайками и комментариями
+- `PostFeed` - Лента постов
+- `CreatePost` - Форма создания поста (title, content, optional image)
+
+### Профиль
+- `ProfilePage` - Страница профиля с редактированием
+- `AvatarUpload` - Загрузка аватара с превью
+- Сетка постов пользователя
+
+### Навигация
+- `Header` - Навигационная панель
+- `Layout` - Общий layout приложения
+- `ProtectedRoute` - Защита маршрутов
+
+## 🤝 Вклад в проект
+
+Мы приветствуем вклад в развитие проекта! Пожалуйста:
+
+1. Сделайте Fork репозитория
+2. Создайте feature ветку (`git checkout -b feature/AmazingFeature`)
+3. Закоммитьте изменения (`git commit -m 'feat: add some feature'`)
+4. Запушьте в ветку (`git push origin feature/AmazingFeature`)
+5. Откройте Pull Request
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT. Подробности в [LICENSE.md](LICENSE.md).
+
+## 📜 Пользовательское соглашение
+
+Используя это приложение, вы соглашаетесь с условиями, изложенными в [TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md).
+
+## 👨‍💻 Автор
+
+**Ivan Podymov**
+- GitHub: [@IPodymov](https://github.com/IPodymov)
+- Frontend: [fakegram-frontend](https://github.com/IPodymov/fakegram-frontend)
+- Backend: [fakegram-backend](https://github.com/IPodymov/fakegram-backend)
+
+## 🔗 Связанные проекты
+
+- [Fakegram Backend](https://github.com/IPodymov/fakegram-backend) - NestJS API сервер
+
+---
+
+⭐️ Если проект был полезен, поставьте звёздочку!

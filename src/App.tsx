@@ -5,8 +5,9 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { HomePage } from './pages/HomePage/HomePage';
-import { CreatePostPage } from './pages/CreatePostPage/CreatePostPage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { ShortsPage } from './pages/ShortsPage/ShortsPage';
+import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 import './App.css';
 
 function App() {
@@ -28,18 +29,26 @@ function App() {
             }
           />
           <Route
-            path="/create"
-            element={
-              <ProtectedRoute>
-                <CreatePostPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/profile"
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/shorts"
+            element={
+              <ProtectedRoute>
+                <ShortsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
               </ProtectedRoute>
             }
           />

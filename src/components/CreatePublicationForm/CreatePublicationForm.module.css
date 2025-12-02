@@ -1,0 +1,188 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #262626;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #262626;
+}
+
+.input:disabled,
+.textarea:disabled {
+  background-color: #fafafa;
+  cursor: not-allowed;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.fileInput {
+  font-size: 14px;
+  padding: 8px;
+  border: 1px dashed #dbdbdb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.fileInput:hover {
+  border-color: #262626;
+}
+
+.fileInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.preview {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dbdbdb;
+}
+
+.previewImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.removeImage {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.removeImage:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.removeImage:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.error {
+  color: #ed4956;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  background-color: #ffebee;
+  border-radius: 6px;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #0095f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #1877f2;
+}
+
+.submitButton:disabled {
+  background-color: #b2dffc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .form {
+    gap: 16px;
+  }
+
+  .field {
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 13px;
+  }
+
+  .input,
+  .textarea {
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+
+  .textarea {
+    min-height: 60px;
+  }
+
+  .fileInput {
+    font-size: 13px;
+    padding: 7px;
+  }
+
+  .preview {
+    max-width: 100%;
+  }
+
+  .removeImage {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .error {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .submitButton {
+    padding: 10px;
+    font-size: 13px;
+  }
+}

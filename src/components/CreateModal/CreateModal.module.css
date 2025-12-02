@@ -1,0 +1,365 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #262626;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background-color: #f2f2f2;
+}
+
+.menuContent {
+  padding: 40px 24px 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 24px;
+  text-align: center;
+  color: #262626;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionButton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: none;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #262626;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.optionButton:hover {
+  background-color: #fafafa;
+  border-color: #262626;
+}
+
+.optionIcon {
+  font-size: 28px;
+}
+
+.publicationContent,
+.liveContent,
+.shortContent {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #262626;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background-color: #f2f2f2;
+}
+
+.typeToggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 4px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+.toggleButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #8e8e8e;
+  transition: all 0.2s;
+}
+
+.toggleButton.active {
+  background-color: #ffffff;
+  color: #262626;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggleButton:hover:not(.active) {
+  color: #262626;
+}
+
+.comingSoon {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.comingSoon p {
+  font-size: 18px;
+  margin: 16px 0;
+  color: #262626;
+}
+
+.hint {
+  font-size: 14px !important;
+  color: #8e8e8e !important;
+}
+
+.shortForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.uploadArea {
+  text-align: center;
+  padding: 60px 20px;
+  border: 2px dashed #dbdbdb;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+.uploadIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.uploadArea h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #262626;
+}
+
+.uploadHint {
+  font-size: 14px;
+  color: #8e8e8e;
+  margin: 0 0 24px;
+}
+
+.uploadButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0095f6;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.uploadButton:hover {
+  background-color: #1877f2;
+}
+
+.guidelines {
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.guidelines h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: #262626;
+}
+
+.guidelines ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.guidelines li {
+  font-size: 14px;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.guidelines li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .menuContent {
+    padding: 32px 20px 20px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .options {
+    gap: 10px;
+  }
+
+  .optionButton {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+
+  .optionIcon {
+    font-size: 24px;
+  }
+
+  .publicationContent,
+  .liveContent,
+  .shortContent {
+    padding: 20px 16px;
+  }
+
+  .header {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .typeToggle {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .toggleButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .comingSoon {
+    padding: 40px 16px;
+  }
+
+  .comingSoon p {
+    font-size: 16px;
+  }
+
+  .shortForm {
+    gap: 20px;
+  }
+
+  .uploadArea {
+    padding: 40px 16px;
+  }
+
+  .uploadIcon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .uploadArea h3 {
+    font-size: 16px;
+  }
+
+  .uploadHint {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .uploadButton {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .guidelines {
+    padding: 16px;
+  }
+
+  .guidelines h4 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .guidelines li {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+}

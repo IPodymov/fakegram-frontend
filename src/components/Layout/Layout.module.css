@@ -1,11 +1,24 @@
 .layout {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   background-color: #fafafa;
+  position: relative;
 }
 
 .main {
   flex: 1;
+  margin-left: 240px;
+  padding: 20px;
   width: 100%;
+  max-width: calc(100% - 240px);
+  transition: margin-left 0.3s ease-out;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 12px;
+    padding-bottom: 72px;
+  }
 }

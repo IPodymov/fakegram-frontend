@@ -105,3 +105,37 @@
   background-color: #fef1f2;
   border-radius: 4px;
 }
+
+@media (max-width: 768px) {
+  .form {
+    gap: 12px;
+  }
+
+  .avatarSection {
+    margin-bottom: 4px;
+  }
+
+  .avatarWrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatarOverlay span {
+    font-size: 11px;
+  }
+
+  .input {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .button {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .error {
+    font-size: 13px;
+    padding: 6px;
+  }
+}

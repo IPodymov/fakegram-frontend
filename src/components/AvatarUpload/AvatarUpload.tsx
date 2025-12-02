@@ -1,11 +1,19 @@
-import { useState, useRef, type ChangeEvent } from 'react';
+import { useState, useRef, useImperativeHandle, forwardRef, type ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
 import photoIcon from '../../assets/icons/photo-icon.svg';
 import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import styles from './AvatarUpload.module.css';
 
-export const AvatarUpload = () => {
+interface AvatarUploadProps {
+  onChangeClick?: () => void;
+}
+
+export interface AvatarUploadRef {
+  triggerFileInput: () => void;
+}
+
+export const AvatarUpload = forwardRef<AvatarUploadRef, AvatarUploadProps>((_, ref) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { loading } = useAppSelector((state) => state.users);
@@ -13,6 +21,12 @@ export const AvatarUpload = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    triggerFileInput: () => {
+      fileInputRef.current?.click();
+    },
+  }));
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,7 +68,7 @@ export const AvatarUpload = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleClick = () => {
+  const handleFileChange = () => {
     fileInputRef.current?.click();
   };
 
@@ -75,7 +89,7 @@ export const AvatarUpload = () => {
         )}
         <button
           type="button"
-          onClick={handleClick}
+          onClick={handleFileChange}
           className={styles.changeButton}
           disabled={loading}
         >
@@ -94,4 +108,8 @@ export const AvatarUpload = () => {
       {error && <div className={styles.error}>{error}</div>}
     </div>
   );
-};
+});
+
+AvatarUpload.displayName = 'AvatarUpload';
+
+export { AvatarUpload as default };

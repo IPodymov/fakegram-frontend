@@ -117,3 +117,43 @@
   text-transform: uppercase;
   display: block;
 }
+
+@media (max-width: 768px) {
+  .card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 8px;
+    max-width: 100%;
+  }
+
+  .header {
+    padding: 12px 16px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .username {
+    font-size: 14px;
+  }
+
+  .location {
+    font-size: 11px;
+  }
+
+  .content {
+    padding: 12px 16px;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .caption {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

@@ -91,17 +91,26 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    gap: 8px;
+  }
+
   .avatarWrapper {
     width: 100px;
     height: 100px;
   }
 
   .changeButton {
-    height: 30px;
+    display: none;
   }
 
-  .changeButton svg {
-    width: 18px;
-    height: 18px;
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+  }
+
+  .error {
+    font-size: 11px;
   }
 }

@@ -171,3 +171,80 @@
   background-color: #fef1f2;
   border-radius: 4px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+    margin: 16px 0;
+  }
+
+  .card {
+    border: none;
+    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+    border-radius: 0;
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    gap: 14px;
+  }
+
+  .uploadSection {
+    min-height: 250px;
+  }
+
+  .uploadLabel {
+    height: 250px;
+  }
+
+  .uploadPlaceholder svg {
+    width: 72px;
+    height: 58px;
+  }
+
+  .uploadPlaceholder p {
+    font-size: 18px;
+  }
+
+  .uploadPlaceholder span {
+    font-size: 13px;
+  }
+
+  .previewContainer {
+    height: 350px;
+  }
+
+  .removeButton {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .input,
+  .textarea {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .textarea {
+    min-height: 70px;
+  }
+
+  .submitButton {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .error {
+    font-size: 13px;
+    padding: 6px;
+  }
+}

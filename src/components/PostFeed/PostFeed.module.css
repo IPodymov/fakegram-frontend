@@ -32,3 +32,24 @@
 .empty p {
   font-size: 16px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 0;
+  }
+
+  .loading,
+  .error,
+  .empty {
+    padding: 40px 16px;
+  }
+
+  .empty h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .empty p {
+    font-size: 14px;
+  }
+}
