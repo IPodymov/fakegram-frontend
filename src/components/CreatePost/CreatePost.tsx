@@ -8,8 +8,8 @@ export const CreatePost = () => {
   const { loading } = useAppSelector((state) => state.posts);
   const { user } = useAppSelector((state) => state.auth);
 
-  const [caption, setCaption] = useState('');
-  const [location, setLocation] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -42,8 +42,13 @@ export const CreatePost = () => {
     e.preventDefault();
     setError('');
 
-    if (!imageFile) {
-      setError('Пожалуйста, выберите изображение');
+    if (!title.trim()) {
+      setError('Пожалуйста, введите заголовок');
+      return;
+    }
+
+    if (!content.trim()) {
+      setError('Пожалуйста, введите контент');
       return;
     }
 
@@ -53,27 +58,33 @@ export const CreatePost = () => {
     }
 
     try {
-      // В реальном приложении здесь нужно загрузить изображение на сервер
-      // и получить URL. Для демонстрации используем base64
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const imageUrl = reader.result as string;
-        
-        await dispatch(createPostThunk({
-          userId: user.id,
-          mediaUrl: imageUrl,
-          caption: caption.trim() || null,
-          location: location.trim() || null,
-          isVideo: false,
-        }));
+      let mediaUrl: string | null = null;
 
-        // Очищаем форму после успешного создания
-        setCaption('');
-        setLocation('');
-        setImageFile(null);
-        setImagePreview(null);
-      };
-      reader.readAsDataURL(imageFile);
+      // Если есть изображение, конвертируем в base64
+      if (imageFile) {
+        const reader = new FileReader();
+        await new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            mediaUrl = reader.result as string;
+            resolve(null);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(imageFile);
+        });
+      }
+
+      await dispatch(createPostThunk({
+        title: title.trim(),
+        content: content.trim(),
+        published: true,
+        mediaUrl,
+      }));
+
+      // Очищаем форму после успешного создания
+      setTitle('');
+      setContent('');
+      setImageFile(null);
+      setImagePreview(null);
     } catch (err) {
       setError('Не удалось создать пост');
       console.error('Failed to create post:', err);
@@ -113,7 +124,7 @@ export const CreatePost = () => {
                   <svg width="96" height="77" viewBox="0 0 96 77" fill="none">
                     <path d="M43.5 0H52.5L56.6 10.4L69.1 13.7L79.5 9.6L87 17.1L82.9 27.5L86.2 40L96.6 44.1V53.1L86.2 57.2L82.9 69.7L87 80.1L79.5 87.6L69.1 83.5L56.6 86.8L52.5 97.2H43.5L39.4 86.8L26.9 83.5L16.5 87.6L9 80.1L13.1 69.7L9.8 57.2L-0.6 53.1V44.1L9.8 40L13.1 27.5L9 17.1L16.5 9.6L26.9 13.7L39.4 10.4L43.5 0Z" fill="currentColor"/>
                   </svg>
-                  <p>Выберите фото</p>
+                  <p>Выберите фото (необязательно)</p>
                   <span>или перетащите его сюда</span>
                 </div>
               </label>
@@ -121,22 +132,24 @@ export const CreatePost = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <textarea
-              placeholder="Подпись к посту..."
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-              className={styles.textarea}
-              rows={4}
+            <input
+              type="text"
+              placeholder="Заголовок поста"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.input}
+              required
             />
           </div>
 
           <div className={styles.formGroup}>
-            <input
-              type="text"
-              placeholder="Добавить местоположение"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className={styles.input}
+            <textarea
+              placeholder="Контент поста..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className={styles.textarea}
+              rows={6}
+              required
             />
           </div>
 
@@ -145,7 +158,7 @@ export const CreatePost = () => {
           <button
             type="submit"
             className={styles.submitButton}
-            disabled={loading || !imageFile}
+            disabled={loading || !title.trim() || !content.trim()}
           >
             {loading ? 'Публикация...' : 'Опубликовать'}
           </button>

@@ -1,4 +1,4 @@
-import { type AppDispatch } from "../index";
+import { type AppDispatch, type RootState } from "../index";
 import { usersApi } from "../../api";
 import {
   fetchUsersStart,
@@ -14,6 +14,7 @@ import {
   deleteUserSuccess,
   deleteUserFailure,
 } from "../slices/usersSlice";
+import { loginSuccess } from "../slices/authSlice";
 import type { User } from "../../types";
 
 export const fetchUsersThunk = () => async (dispatch: AppDispatch) => {
@@ -61,11 +62,22 @@ export const fetchUserByUsernameThunk =
   };
 
 export const updateUserThunk =
-  (id: string, userData: Partial<User>) => async (dispatch: AppDispatch) => {
+  (id: string, userData: Partial<User>) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       dispatch(updateUserStart());
       const user = await usersApi.update(id, userData);
       dispatch(updateUserSuccess(user));
+      
+      // Если обновляется текущий пользователь, обновляем auth state и localStorage
+      const currentUser = getState().auth.user;
+      if (currentUser && currentUser.id === id) {
+        const token = getState().auth.token;
+        if (token) {
+          dispatch(loginSuccess({ user, token }));
+        }
+      }
+      
       return user;
     } catch (error: unknown) {
       const errorMessage =

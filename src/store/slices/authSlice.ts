@@ -1,8 +1,20 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState, User } from "../../types";
 
+const getUserFromStorage = (): User | null => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    try {
+      return JSON.parse(userStr);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
 const initialState: AuthState = {
-  user: null,
+  user: getUserFromStorage(),
   token: localStorage.getItem("access_token"),
   isAuthenticated: !!localStorage.getItem("access_token"),
   loading: false,
@@ -27,6 +39,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.error = null;
       localStorage.setItem("access_token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -51,6 +64,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
       localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
     },
     clearError: (state) => {
       state.error = null;

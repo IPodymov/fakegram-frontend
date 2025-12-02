@@ -28,18 +28,15 @@ export const PostCard = ({ post }: PostCardProps) => {
           />
           <div className={styles.userDetails}>
             <span className={styles.username}>{post.user?.username || 'Unknown'}</span>
-            {post.location && <span className={styles.location}>{post.location}</span>}
           </div>
         </div>
       </div>
 
-      <div className={styles.mediaContainer}>
-        {post.isVideo ? (
-          <video src={post.mediaUrl} controls className={styles.media} />
-        ) : (
-          <img src={post.mediaUrl} alt={post.caption || 'Post'} className={styles.media} />
-        )}
-      </div>
+      {post.mediaUrl && (
+        <div className={styles.mediaContainer}>
+          <img src={post.mediaUrl} alt={post.title || 'Post'} className={styles.media} />
+        </div>
+      )}
 
       <div className={styles.content}>
         <div className={styles.actions}>
@@ -61,10 +58,16 @@ export const PostCard = ({ post }: PostCardProps) => {
           </div>
         )}
 
-        {post.caption && (
+        {post.title && (
           <div className={styles.caption}>
             <span className={styles.username}>{post.user?.username || 'Unknown'}</span>{' '}
-            {post.caption}
+            <strong>{post.title}</strong>
+          </div>
+        )}
+
+        {post.content && (
+          <div className={styles.caption}>
+            {post.content}
           </div>
         )}
 

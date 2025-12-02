@@ -1,0 +1,288 @@
+.container {
+  max-width: 975px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.profileHeader {
+  display: flex;
+  gap: 80px;
+  margin-bottom: 44px;
+}
+
+.avatarSection {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.username {
+  font-size: 28px;
+  font-weight: 300;
+  color: #262626;
+  margin: 0;
+}
+
+.editButton {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editButton:hover {
+  background: #fafafa;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+}
+
+.stat {
+  display: flex;
+  gap: 4px;
+  font-size: 16px;
+}
+
+.statNumber {
+  font-weight: 600;
+  color: #262626;
+}
+
+.statLabel {
+  color: #262626;
+}
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fullName {
+  font-weight: 600;
+  color: #262626;
+  font-size: 16px;
+}
+
+.bioText {
+  color: #262626;
+  font-size: 16px;
+  line-height: 24px;
+  white-space: pre-wrap;
+}
+
+.website {
+  color: #0095f6;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.website:hover {
+  text-decoration: underline;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.input,
+.textarea {
+  padding: 10px 12px;
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #fafafa;
+  transition: all 0.2s;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #0095f6;
+  background-color: white;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.saveButton {
+  padding: 10px 16px;
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background-color: #1877f2;
+}
+
+.divider {
+  height: 1px;
+  background-color: #dbdbdb;
+  margin: 44px 0;
+}
+
+.postsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.postsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8e8e8e;
+  letter-spacing: 1px;
+}
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.postItem {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: #fafafa;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.postImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.postItem:hover .postImage {
+  transform: scale(1.05);
+}
+
+.postOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.postItem:hover .postOverlay {
+  opacity: 1;
+}
+
+.postStats {
+  display: flex;
+  gap: 30px;
+  color: white;
+}
+
+.postStat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.noPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.noPostsIcon {
+  margin-bottom: 24px;
+  color: #262626;
+}
+
+.noPosts h2 {
+  font-size: 28px;
+  font-weight: 300;
+  color: #262626;
+  margin-bottom: 12px;
+}
+
+.noPosts p {
+  font-size: 14px;
+  color: #8e8e8e;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #8e8e8e;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .profileHeader {
+    gap: 30px;
+  }
+
+  .username {
+    font-size: 24px;
+  }
+
+  .postsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+}

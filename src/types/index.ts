@@ -12,11 +12,10 @@ export interface User {
 
 export interface Post {
   id: string;
-  userId: string;
-  mediaUrl: string;
-  caption: string | null;
-  isVideo: boolean;
-  location: string | null;
+  title: string;
+  content: string;
+  published: boolean;
+  mediaUrl?: string | null;
   createdAt: string;
   user?: User;
   comments?: Comment[];

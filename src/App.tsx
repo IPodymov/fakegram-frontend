@@ -6,6 +6,7 @@ import { LoginPage } from './pages/LoginPage/LoginPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { HomePage } from './pages/HomePage/HomePage';
 import { CreatePostPage } from './pages/CreatePostPage/CreatePostPage';
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import './App.css';
 
 function App() {
@@ -31,6 +32,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CreatePostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />
