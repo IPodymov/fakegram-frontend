@@ -20,6 +20,190 @@
 
 .section {
   padding: 0;
+  margin-bottom: 24px;
+}
+
+.sectionHeader {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+}
+
+.settingItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.settingInfo {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.settingLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 4px;
+}
+
+.settingDescription {
+  font-size: 14px;
+  color: #8e8e8e;
+  line-height: 1.4;
+}
+
+.settingAction {
+  flex-shrink: 0;
+}
+
+.primaryButton {
+  padding: 8px 16px;
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+  background-color: #1877f2;
+}
+
+.secondaryButton {
+  padding: 8px 16px;
+  background-color: #efefef;
+  color: #262626;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: #dbdbdb;
+}
+
+.dangerButton {
+  padding: 8px 16px;
+  background-color: white;
+  color: #ed4956;
+  border: 1px solid #ed4956;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dangerButton:hover {
+  background-color: #fef1f2;
+}
+
+.qrSection {
+  padding: 20px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.qrContainer {
+  max-width: 400px;
+  margin: 0 auto;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qrTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.qrInstructions {
+  font-size: 14px;
+  color: #262626;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.qrCodeWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.qrCodeImage {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+}
+
+.codeInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 8px;
+  margin: 12px 0;
+  font-family: monospace;
+}
+
+.codeInput:focus {
+  outline: none;
+  border-color: #0095f6;
+}
+
+.qrActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.qrActions button {
+  flex: 1;
+}
+
+.errorMessage {
+  padding: 12px 20px;
+  background-color: #fef1f2;
+  color: #ed4956;
+  font-size: 14px;
+  border-left: 3px solid #ed4956;
+  margin: 12px 20px;
+  border-radius: 4px;
+}
+
+.successMessage {
+  padding: 12px 20px;
+  background-color: #d4edda;
+  color: #155724;
+  font-size: 14px;
+  border-left: 3px solid #28a745;
+  margin: 12px 20px;
+  border-radius: 4px;
 }
 
 .logoutButton {
@@ -60,5 +244,74 @@
 
   .title {
     font-size: 20px;
+  }
+
+  .sectionHeader {
+    padding: 12px 16px 10px;
+  }
+
+  .sectionTitle {
+    font-size: 16px;
+  }
+
+  .settingItem {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+  }
+
+  .settingInfo {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .settingLabel {
+    font-size: 15px;
+  }
+
+  .settingDescription {
+    font-size: 13px;
+  }
+
+  .settingAction {
+    width: 100%;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .dangerButton {
+    width: 100%;
+  }
+
+  .qrSection {
+    padding: 16px;
+  }
+
+  .qrContainer {
+    padding: 20px 16px;
+  }
+
+  .qrTitle {
+    font-size: 18px;
+  }
+
+  .qrInstructions {
+    font-size: 13px;
+  }
+
+  .qrCodeImage {
+    width: 180px;
+    height: 180px;
+  }
+
+  .codeInput {
+    font-size: 16px;
+    letter-spacing: 6px;
+  }
+
+  .errorMessage,
+  .successMessage {
+    margin: 12px 16px;
+    font-size: 13px;
   }
 }

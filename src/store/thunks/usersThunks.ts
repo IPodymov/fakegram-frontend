@@ -13,6 +13,9 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  searchUsersStart,
+  searchUsersSuccess,
+  searchUsersFailure,
 } from "../slices/usersSlice";
 import { loginSuccess } from "../slices/authSlice";
 import type { User } from "../../types";
@@ -97,6 +100,21 @@ export const deleteUserThunk =
       const errorMessage =
         error instanceof Error ? error.message : "Failed to delete user";
       dispatch(deleteUserFailure(errorMessage));
+      throw error;
+    }
+  };
+
+export const searchUsersThunk =
+  (query: string) => async (dispatch: AppDispatch) => {
+    try {
+      dispatch(searchUsersStart());
+      const users = await usersApi.search(query);
+      dispatch(searchUsersSuccess(users));
+      return users;
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to search users";
+      dispatch(searchUsersFailure(errorMessage));
       throw error;
     }
   };

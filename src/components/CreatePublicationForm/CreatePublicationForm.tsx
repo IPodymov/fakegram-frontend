@@ -1,82 +1,182 @@
-import { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
-import { useAppDispatch } from '../../store/hooks';
-import { createPostThunk } from '../../store/thunks/postsThunks';
-import styles from './CreatePublicationForm.module.css';
+import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { useAppDispatch } from "../../store/hooks";
+import { createPostThunk } from "../../store/thunks/postsThunks";
+import { createStoryThunk } from "../../store/thunks/storiesThunks";
+import styles from "./CreatePublicationForm.module.css";
 
 interface CreatePublicationFormProps {
-  type: 'post' | 'story';
+  type: "post" | "story";
   onSuccess: () => void;
 }
 
-export const CreatePublicationForm = ({ type, onSuccess }: CreatePublicationFormProps) => {
+export const CreatePublicationForm = ({
+  type,
+  onSuccess,
+}: CreatePublicationFormProps) => {
   const dispatch = useAppDispatch();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          
+          // Максимальные размеры
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          
+          let width = img.width;
+          let height = img.height;
+          
+          // Пропорциональное уменьшение
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = (height * MAX_WIDTH) / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = (width * MAX_HEIGHT) / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Сжатие с качеством 0.7
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+          resolve(compressedBase64);
+        };
+        img.onerror = reject;
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        setError('Размер файла не должен превышать 2 МБ');
+      if (file.size > 10 * 1024 * 1024) {
+        setError("Размер файла не должен превышать 10 МБ");
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        setImage(base64);
-        setImagePreview(base64);
-      };
-      reader.readAsDataURL(file);
-      setError('');
+      try {
+        setError("Сжатие изображения...");
+        const compressedBase64 = await compressImage(file);
+        setImage(compressedBase64);
+        setImagePreview(compressedBase64);
+        setError("");
+      } catch (err) {
+        console.error("Ошибка при обработке изображения:", err);
+        setError("Не удалось обработать изображение");
+      }
     }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    if (type === 'post') {
+    if (type === "post") {
       if (!title.trim()) {
-        setError('Пожалуйста, введите заголовок');
+        setError("Пожалуйста, введите заголовок");
         return;
       }
       if (!content.trim()) {
-        setError('Пожалуйста, введите содержимое');
+        setError("Пожалуйста, введите содержимое");
         return;
       }
     } else {
       // Для историй обязательно изображение
       if (!image) {
-        setError('Пожалуйста, добавьте изображение для истории');
+        setError("Пожалуйста, добавьте изображение для истории");
         return;
       }
     }
 
     setIsLoading(true);
+    setError("");
 
     try {
-      await dispatch(
-        createPostThunk({
-          title: type === 'story' ? 'История' : title,
-          content: type === 'story' ? (content || 'История') : content,
+      if (type === "story") {
+        // Создание истории
+        await dispatch(
+          createStoryThunk({
+            content: content || "История",
+            mediaUrl: image || undefined,
+          })
+        );
+      } else {
+        // Создание поста
+        const postData: {
+          title: string;
+          content: string;
+          published: boolean;
+          mediaUrl?: string;
+        } = {
+          title,
+          content,
           published: true,
-          mediaUrl: image || undefined,
-        })
-      );
+        };
 
-      setTitle('');
-      setContent('');
+        // Добавляем mediaUrl только если есть изображение
+        if (image) {
+          postData.mediaUrl = image;
+        }
+
+        await dispatch(createPostThunk(postData));
+      }
+
+      // Очищаем форму после успешного создания
+      setTitle("");
+      setContent("");
       setImage(null);
       setImagePreview(null);
+      setError("");
       onSuccess();
-    } catch {
-      setError('Не удалось создать публикацию. Попробуйте позже.');
+    } catch (error) {
+      console.error("Failed to create publication:", error);
+
+      // Более детальная обработка ошибок
+      const err = error as { 
+        response?: { 
+          status?: number; 
+          data?: any;
+        }; 
+        message?: string;
+      };
+      
+      if (err.response?.status === 400) {
+        const errorMsg = err.response?.data?.message || "Проверьте правильность заполнения полей.";
+        setError(errorMsg);
+      } else if (err.response?.status === 401) {
+        setError("Вы не авторизованы. Пожалуйста, войдите в систему.");
+      } else if (err.response?.status === 413) {
+        setError("Изображение слишком большое. Попробуйте выбрать изображение меньшего размера.");
+      } else if (err.response?.status === 500) {
+        const errorDetails = err.response?.data?.message || "";
+        console.error("Server error details:", err.response?.data);
+        setError(`Ошибка сервера: ${errorDetails || "Попробуйте позже или обратитесь к администратору."}`);
+      } else if (err.message) {
+        setError(`Ошибка: ${err.message}`);
+      } else {
+        setError("Не удалось создать публикацию. Попробуйте позже.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +184,7 @@ export const CreatePublicationForm = ({ type, onSuccess }: CreatePublicationForm
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {type === 'post' ? (
+      {type === "post" ? (
         <>
           <div className={styles.field}>
             <label htmlFor="title" className={styles.label}>
@@ -166,7 +266,11 @@ export const CreatePublicationForm = ({ type, onSuccess }: CreatePublicationForm
 
       {imagePreview && (
         <div className={styles.preview}>
-          <img src={imagePreview} alt="Предпросмотр" className={styles.previewImage} />
+          <img
+            src={imagePreview}
+            alt="Предпросмотр"
+            className={styles.previewImage}
+          />
           <button
             type="button"
             onClick={() => {
@@ -183,8 +287,14 @@ export const CreatePublicationForm = ({ type, onSuccess }: CreatePublicationForm
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <button type="submit" className={styles.submitButton} disabled={isLoading}>
-        {isLoading ? 'Публикация...' : `Опубликовать ${type === 'post' ? 'пост' : 'историю'}`}
+      <button
+        type="submit"
+        className={styles.submitButton}
+        disabled={isLoading}
+      >
+        {isLoading
+          ? "Публикация..."
+          : `Опубликовать ${type === "post" ? "пост" : "историю"}`}
       </button>
     </form>
   );

@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchUsersThunk } from '../../store/thunks/usersThunks';
+import type { RootState, AppDispatch } from '../../store';
+import type { User } from '../../types';
 import styles from './SearchPanel.module.css';
 
 interface SearchPanelProps {
@@ -8,61 +12,51 @@ interface SearchPanelProps {
   onClose: () => void;
 }
 
-interface User {
-  id: string;
-  username: string;
-  profilePictureUrl?: string;
-  fullName?: string;
-}
+const RECENT_SEARCHES_KEY = 'fakegram_recent_searches';
 
 export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  
+  const { users: searchResults, loading: isLoading } = useSelector((state: RootState) => state.users);
+  
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<User[]>([]);
+
+  // Загрузка недавних поисков из localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem(RECENT_SEARCHES_KEY);
+    if (saved) {
+      try {
+        setRecentSearches(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to parse recent searches:', e);
+      }
+    }
+  }, []);
 
   const handleSearchChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
 
     if (query.trim().length < 2) {
-      setSearchResults([]);
       return;
     }
 
-    setIsLoading(true);
-    
-    // TODO: Заменить на реальный API запрос
-    setTimeout(() => {
-      // Симуляция поиска
-      const mockResults: User[] = [
-        {
-          id: '1',
-          username: 'john_doe',
-          fullName: 'John Doe',
-          profilePictureUrl: undefined,
-        },
-        {
-          id: '2',
-          username: 'jane_smith',
-          fullName: 'Jane Smith',
-          profilePictureUrl: undefined,
-        },
-      ].filter(user => 
-        user.username.toLowerCase().includes(query.toLowerCase()) ||
-        user.fullName?.toLowerCase().includes(query.toLowerCase())
-      );
-      
-      setSearchResults(mockResults);
-      setIsLoading(false);
-    }, 300);
+    try {
+      await dispatch(searchUsersThunk(query));
+    } catch (error) {
+      console.error('Search failed:', error);
+    }
   };
 
   const handleUserClick = (user: User) => {
     // Добавить в недавние поиски
     const updated = [user, ...recentSearches.filter(u => u.id !== user.id)].slice(0, 5);
     setRecentSearches(updated);
+    
+    // Сохранить в localStorage
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated));
     
     // Перейти на профиль пользователя
     navigate(`/profile/${user.id}`);
@@ -71,11 +65,11 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
 
   const clearSearch = () => {
     setSearchQuery('');
-    setSearchResults([]);
   };
 
   const clearRecentSearches = () => {
     setRecentSearches([]);
+    localStorage.removeItem(RECENT_SEARCHES_KEY);
   };
 
   if (!isOpen) return null;
@@ -116,7 +110,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
         <div className={styles.content}>
           {isLoading ? (
             <div className={styles.loading}>Поиск...</div>
-          ) : searchQuery.trim() ? (
+          ) : searchQuery.trim().length >= 2 ? (
             searchResults.length > 0 ? (
               <div className={styles.results}>
                 {searchResults.map((user) => (

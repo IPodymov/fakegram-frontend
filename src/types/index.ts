@@ -22,6 +22,18 @@ export interface Post {
   likes?: Like[];
 }
 
+export interface Story {
+  id: string;
+  userId: string;
+  content: string;
+  mediaUrl?: string;
+  isVideo?: boolean;
+  createdAt: string;
+  expiresAt: string;
+  viewersCount?: number;
+  user?: User;
+}
+
 export interface Comment {
   id: string;
   postId: string;
@@ -78,6 +90,13 @@ export interface UsersState {
 export interface PostsState {
   posts: Post[];
   currentPost: Post | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export interface StoriesState {
+  stories: Story[];
+  currentStory: Story | null;
   loading: boolean;
   error: string | null;
 }

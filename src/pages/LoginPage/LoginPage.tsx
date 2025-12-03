@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
-import logo from '../../assets/images/logo.jpeg';
+import logo from '../../assets/images/logo.png';
 import styles from './LoginPage.module.css';
 
 export const LoginPage = () => {

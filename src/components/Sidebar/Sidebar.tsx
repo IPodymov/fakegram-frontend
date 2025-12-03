@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { logout } from '../../store/slices/authSlice';
+import { Link, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
 import homeIcon from '../../assets/icons/home.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
 import exploreIcon from '../../assets/icons/explore-icon.svg';
 import realsIcon from '../../assets/icons/reals-icon.svg';
 import addPostIcon from '../../assets/icons/add-post-icon.svg';
-// import exitIcon from '../../assets/icons/hamburger-icon.svg';
-import exitIcon from "../../assets/icons/exit-icon.svg"
+import settingsIcon from '../../assets/icons/settings-icon.svg';
 import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import { CreateModal } from '../CreateModal/CreateModal';
 import { SearchPanel } from '../SearchPanel/SearchPanel';
@@ -17,17 +15,10 @@ import styles from './Sidebar.module.css';
 
 export const Sidebar = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
   const [isExplorePanelOpen, setIsExplorePanelOpen] = useState(false);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
 
   const handleCreateClick = () => {
     setIsCreateModalOpen(true);
@@ -117,10 +108,13 @@ export const Sidebar = () => {
         </div>
 
         <div className={styles.footer}>
-          <button onClick={handleLogout} className={styles.menuItem}>
-            <img src={exitIcon} alt="Ещё" className={styles.icon} />
-            <span>Выход</span>
-          </button>
+          <Link
+            to="/settings"
+            className={`${styles.menuItem} ${location.pathname === '/settings' ? styles.active : ''}`}
+          >
+            <img src={settingsIcon} alt="Настройки" className={styles.icon} />
+            <span>Настройки</span>
+          </Link>
         </div>
       </nav>
 

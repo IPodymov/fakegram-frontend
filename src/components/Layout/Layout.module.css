@@ -1,7 +1,7 @@
 .layout {
   min-height: 100vh;
   display: flex;
-  background-color: #fafafa;
+  background-color: var(--background-primary);
   position: relative;
 }
 

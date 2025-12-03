@@ -1,3 +1,46 @@
+:root {
+  /* Tech Minimal Color Palette */
+  --primary-color: #0a84ff; /* яркий акцентный синий */
+  --secondary-color: #30d5c8; /* мятно-бирюзовый */
+  --tertiary-color: #f2f2f7; /* ультра-светлый серый */
+  --accent-color: #30d5c8; /* мятно-бирюзовый */
+  --accent-light: #0a84ff; /* яркий синий */
+
+  /* Text Colors */
+  --text-primary: #1c1c1e; /* графитовый тёмный */
+  --text-secondary: #8e8e93; /* нейтральный серый */
+  --text-light: #f2f2f7;
+
+  /* Background Colors */
+  --background-primary: #f2f2f7;
+  --background-secondary: #ffffff;
+  --background-hover: #e5e5ea;
+  --background-overlay: rgba(28, 28, 30, 0.8);
+
+  /* Button Colors */
+  --primary-button: #0a84ff;
+  --primary-button-hover: #0066cc;
+  --secondary-button: #30d5c8;
+  --secondary-button-hover: #28b8ad;
+
+  /* Border Colors */
+  --border-color: #d1d1d6;
+  --border-light: #e5e5ea;
+
+  /* Link Colors */
+  --link-color: #0a84ff;
+  --link-hover: #30d5c8;
+
+  /* Shadow */
+  --box-shadow: 0 2px 8px rgba(28, 28, 30, 0.12);
+  --box-shadow-hover: 0 4px 16px rgba(28, 28, 30, 0.16);
+
+  /* Additional shadows for consistency */
+  --shadow-sm: 0 1px 3px rgba(28, 28, 30, 0.1);
+  --shadow-md: 0 4px 8px rgba(28, 28, 30, 0.12);
+  --shadow-lg: 0 8px 20px rgba(28, 28, 30, 0.15);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,13 +49,15 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica", "Arial", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
-  color: #262626;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }

@@ -6,6 +6,7 @@ import type {
   RegisterResponse,
   User,
   Post,
+  Story,
 } from "../types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -65,6 +66,11 @@ export const usersApi = {
     return response.data;
   },
 
+  search: async (query: string): Promise<User[]> => {
+    const response = await api.get<User[]>(`/users/search?q=${encodeURIComponent(query)}`);
+    return response.data;
+  },
+
   update: async (id: string, userData: Partial<User>): Promise<User> => {
     const response = await api.put<User>(`/users/${id}`, userData);
     return response.data;
@@ -104,5 +110,65 @@ export const postsApi = {
 
   delete: async (id: string): Promise<void> => {
     await api.delete(`/posts/${id}`);
+  },
+};
+
+// Stories API
+export const storiesApi = {
+  getAll: async (): Promise<Story[]> => {
+    const response = await api.get<Story[]>("/stories");
+    return response.data;
+  },
+
+  getById: async (id: string): Promise<Story> => {
+    const response = await api.get<Story>(`/stories/${id}`);
+    return response.data;
+  },
+
+  getByUserId: async (userId: string): Promise<Story[]> => {
+    const response = await api.get<Story[]>(`/stories?userId=${userId}`);
+    return response.data;
+  },
+
+  create: async (storyData: { content: string; mediaUrl?: string }): Promise<Story> => {
+    const response = await api.post<Story>("/stories", storyData);
+    return response.data;
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`/stories/${id}`);
+  },
+};
+
+// Followers API
+export const followersApi = {
+  // Подписаться на пользователя
+  follow: async (userId: string): Promise<{ message: string; followerId: string; followingId: string; createdAt: string }> => {
+    const response = await api.post(`/users/${userId}/follow`);
+    return response.data;
+  },
+
+  // Отписаться от пользователя
+  unfollow: async (userId: string): Promise<{ message: string }> => {
+    const response = await api.delete(`/users/${userId}/follow`);
+    return response.data;
+  },
+
+  // Получить список подписчиков пользователя
+  getFollowers: async (userId: string): Promise<User[]> => {
+    const response = await api.get<User[]>(`/users/${userId}/followers`);
+    return response.data;
+  },
+
+  // Получить список подписок пользователя
+  getFollowing: async (userId: string): Promise<User[]> => {
+    const response = await api.get<User[]>(`/users/${userId}/following`);
+    return response.data;
+  },
+
+  // Проверить, подписан ли текущий пользователь на указанного пользователя
+  isFollowing: async (userId: string): Promise<{ isFollowing: boolean }> => {
+    const response = await api.get<{ isFollowing: boolean }>(`/users/${userId}/is-following`);
+    return response.data;
   },
 };

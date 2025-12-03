@@ -6,6 +6,7 @@ import { LoginPage } from './pages/LoginPage/LoginPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { HomePage } from './pages/HomePage/HomePage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
 import { ShortsPage } from './pages/ShortsPage/ShortsPage';
 import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 import './App.css';
@@ -33,6 +34,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:userId"
+            element={
+              <ProtectedRoute>
+                <UserProfilePage />
               </ProtectedRoute>
             }
           />

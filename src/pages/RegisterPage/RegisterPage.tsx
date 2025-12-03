@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { RegisterForm } from '../../components/RegisterForm/RegisterForm';
-import logo from '../../assets/images/logo.jpeg';
+import logo from '../../assets/images/logo.png';
 import styles from './RegisterPage.module.css';
 
 export const RegisterPage = () => {

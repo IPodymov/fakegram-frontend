@@ -74,6 +74,19 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    searchUsersStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    searchUsersSuccess: (state, action: PayloadAction<User[]>) => {
+      state.loading = false;
+      state.users = action.payload;
+      state.error = null;
+    },
+    searchUsersFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     clearError: (state) => {
       state.error = null;
     },
@@ -93,6 +106,9 @@ export const {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  searchUsersStart,
+  searchUsersSuccess,
+  searchUsersFailure,
   clearError,
 } = usersSlice.actions;
 

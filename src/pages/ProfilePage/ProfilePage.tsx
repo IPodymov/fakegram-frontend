@@ -2,7 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchPostsByUserIdThunk } from '../../store/thunks/postsThunks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
+import { followersApi } from '../../api';
 import { AvatarUpload, type AvatarUploadRef } from '../../components/AvatarUpload/AvatarUpload';
+import { FollowersModal } from '../../components/FollowersModal/FollowersModal';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
@@ -17,9 +19,10 @@ export const ProfilePage = () => {
     website: user?.website || '',
   });
 
-  // Mock data for followers/following
-  const [followersCount] = useState(40);
-  const [followingCount] = useState(51);
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
+  const [followersModalTab, setFollowersModalTab] = useState<'followers' | 'following'>('followers');
   
   const avatarUploadRef = useRef<AvatarUploadRef>(null);
 
@@ -27,9 +30,38 @@ export const ProfilePage = () => {
     avatarUploadRef.current?.triggerFileInput();
   };
 
+  const handleFollowersClick = () => {
+    setFollowersModalTab('followers');
+    setIsFollowersModalOpen(true);
+  };
+
+  const handleFollowingClick = () => {
+    setFollowersModalTab('following');
+    setIsFollowersModalOpen(true);
+  };
+
   useEffect(() => {
     if (user) {
       dispatch(fetchPostsByUserIdThunk(user.id));
+
+      // Загружаем данные о подписчиках и подписках
+      const loadFollowData = async () => {
+        try {
+          const [followers, following] = await Promise.all([
+            followersApi.getFollowers(user.id),
+            followersApi.getFollowing(user.id),
+          ]);
+
+          setFollowersCount(followers.length);
+          setFollowingCount(following.length);
+        } catch (error) {
+          console.error('Ошибка при загрузке данных о подписках:', error);
+          setFollowersCount(0);
+          setFollowingCount(0);
+        }
+      };
+
+      loadFollowData();
     }
   }, [dispatch, user]);
 
@@ -79,14 +111,14 @@ export const ProfilePage = () => {
               <span className={styles.statNumber}>{userPosts.length}</span>
               <span className={styles.statLabel}>публикации</span>
             </div>
-            <div className={styles.stat}>
+            <button className={styles.stat} onClick={handleFollowersClick}>
               <span className={styles.statNumber}>{followersCount}</span>
               <span className={styles.statLabel}>подписчики</span>
-            </div>
-            <div className={styles.stat}>
+            </button>
+            <button className={styles.stat} onClick={handleFollowingClick}>
               <span className={styles.statNumber}>{followingCount}</span>
               <span className={styles.statLabel}>подписки</span>
-            </div>
+            </button>
           </div>
 
           <div className={styles.bio}>
@@ -217,6 +249,14 @@ export const ProfilePage = () => {
           </div>
         )}
       </div>
+
+      <FollowersModal
+        isOpen={isFollowersModalOpen}
+        onClose={() => setIsFollowersModalOpen(false)}
+        userId={user.id}
+        initialTab={followersModalTab}
+        username={user.username}
+      />
     </div>
   );
 };
