@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useAppDispatch } from "../../store/hooks";
@@ -30,14 +31,19 @@ export const CreatePublicationForm = ({
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
-          
+
+          if (!ctx) {
+            reject(new Error("Не удалось создать canvas context"));
+            return;
+          }
+
           // Максимальные размеры
-          const MAX_WIDTH = 1200;
-          const MAX_HEIGHT = 1200;
-          
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+
           let width = img.width;
           let height = img.height;
-          
+
           // Пропорциональное уменьшение
           if (width > height) {
             if (width > MAX_WIDTH) {
@@ -50,19 +56,36 @@ export const CreatePublicationForm = ({
               height = MAX_HEIGHT;
             }
           }
-          
+
           canvas.width = width;
           canvas.height = height;
-          ctx?.drawImage(img, 0, 0, width, height);
-          
-          // Сжатие с качеством 0.7
-          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Сжатие с качеством 0.6 для меньшего размера
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.6);
+
+          // Проверка размера (примерно base64 длина * 0.75 = размер в байтах)
+          const sizeInBytes = compressedBase64.length * 0.75;
+          const sizeInMB = sizeInBytes / (1024 * 1024);
+
+          console.log(`Compressed image size: ${sizeInMB.toFixed(2)} MB`);
+
+          if (sizeInMB > 5) {
+            reject(
+              new Error(
+                "Сжатое изображение всё ещё слишком большое. Попробуйте изображение меньшего размера."
+              )
+            );
+            return;
+          }
+
           resolve(compressedBase64);
         };
-        img.onerror = reject;
+        img.onerror = () =>
+          reject(new Error("Не удалось загрузить изображение"));
         img.src = e.target?.result as string;
       };
-      reader.onerror = reject;
+      reader.onerror = () => reject(new Error("Не удалось прочитать файл"));
       reader.readAsDataURL(file);
     });
   };
@@ -76,6 +99,7 @@ export const CreatePublicationForm = ({
       }
 
       try {
+        setIsLoading(true);
         setError("Сжатие изображения...");
         const compressedBase64 = await compressImage(file);
         setImage(compressedBase64);
@@ -83,7 +107,12 @@ export const CreatePublicationForm = ({
         setError("");
       } catch (err) {
         console.error("Ошибка при обработке изображения:", err);
-        setError("Не удалось обработать изображение");
+        const error = err as Error;
+        setError(error.message || "Не удалось обработать изображение");
+        setImage(null);
+        setImagePreview(null);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -153,25 +182,33 @@ export const CreatePublicationForm = ({
       console.error("Failed to create publication:", error);
 
       // Более детальная обработка ошибок
-      const err = error as { 
-        response?: { 
-          status?: number; 
+      const err = error as {
+        response?: {
+          status?: number;
           data?: any;
-        }; 
+        };
         message?: string;
       };
-      
+
       if (err.response?.status === 400) {
-        const errorMsg = err.response?.data?.message || "Проверьте правильность заполнения полей.";
+        const errorMsg =
+          err.response?.data?.message ||
+          "Проверьте правильность заполнения полей.";
         setError(errorMsg);
       } else if (err.response?.status === 401) {
         setError("Вы не авторизованы. Пожалуйста, войдите в систему.");
       } else if (err.response?.status === 413) {
-        setError("Изображение слишком большое. Попробуйте выбрать изображение меньшего размера.");
+        setError(
+          "Изображение слишком большое. Попробуйте выбрать изображение меньшего размера."
+        );
       } else if (err.response?.status === 500) {
         const errorDetails = err.response?.data?.message || "";
         console.error("Server error details:", err.response?.data);
-        setError(`Ошибка сервера: ${errorDetails || "Попробуйте позже или обратитесь к администратору."}`);
+        setError(
+          `Ошибка сервера: ${
+            errorDetails || "Попробуйте позже или обратитесь к администратору."
+          }`
+        );
       } else if (err.message) {
         setError(`Ошибка: ${err.message}`);
       } else {
