@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import likeIcon from '../../assets/icons/like-icon.svg';
-import commentIcon from '../../assets/icons/comment-icon.svg';
-import styles from './ExplorePanel.module.css';
+import { useState, useEffect } from "react";
+import likeIcon from "../../assets/icons/like-icon.svg";
+import commentIcon from "../../assets/icons/comment-icon.svg";
+import styles from "./ExplorePanel.module.css";
 
 interface ExplorePost {
   id: string;
@@ -19,18 +19,18 @@ interface ExplorePanelProps {
 export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
   const [posts, setPosts] = useState<ExplorePost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const categories = [
-    { id: 'all', label: 'Все' },
-    { id: 'trending', label: 'Популярное' },
-    { id: 'recent', label: 'Новое' },
-    { id: 'following', label: 'Похожее' },
+    { id: "all", label: "Все" },
+    { id: "trending", label: "Популярное" },
+    { id: "recent", label: "Новое" },
+    { id: "following", label: "Похожее" },
   ];
 
   const loadExplorePosts = async () => {
     setIsLoading(true);
-    
+
     // TODO: Заменить на реальный API запрос
     setTimeout(() => {
       const mockPosts: ExplorePost[] = Array.from({ length: 12 }, (_, i) => ({
@@ -40,7 +40,7 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
         likesCount: Math.floor(Math.random() * 1000),
         commentsCount: Math.floor(Math.random() * 100),
       }));
-      
+
       setPosts(mockPosts);
       setIsLoading(false);
     }, 500);
@@ -56,7 +56,7 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
   }, [isOpen, selectedCategory]);
 
   const handlePostClick = (postId: string) => {
-    console.log('Open post:', postId);
+    console.log("Open post:", postId);
     // TODO: Открыть модальное окно с постом
   };
 
@@ -85,7 +85,7 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
               className={`${styles.categoryButton} ${
-                selectedCategory === category.id ? styles.active : ''
+                selectedCategory === category.id ? styles.active : ""
               }`}
             >
               {category.label}
@@ -108,7 +108,11 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
                   className={styles.gridItem}
                 >
                   {post.mediaUrl ? (
-                    <img src={post.mediaUrl} alt={post.title} className={styles.postImage} />
+                    <img
+                      src={post.mediaUrl}
+                      alt={post.title}
+                      className={styles.postImage}
+                    />
                   ) : (
                     <div className={styles.noImage}>
                       <span>📷</span>
@@ -117,11 +121,19 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
                   <div className={styles.overlay}>
                     <div className={styles.stats}>
                       <span className={styles.stat}>
-                        <img src={likeIcon} alt="Лайки" className={styles.statIcon} />
+                        <img
+                          src={likeIcon}
+                          alt="Лайки"
+                          className={styles.statIcon}
+                        />
                         {post.likesCount}
                       </span>
                       <span className={styles.stat}>
-                        <img src={commentIcon} alt="Комментарии" className={styles.statIcon} />
+                        <img
+                          src={commentIcon}
+                          alt="Комментарии"
+                          className={styles.statIcon}
+                        />
                         {post.commentsCount}
                       </span>
                     </div>

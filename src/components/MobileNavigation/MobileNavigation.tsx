@@ -1,12 +1,12 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
-import { NotificationsButton } from '../NotificationsButton';
-import homeIcon from '../../assets/icons/home.svg';
-import searchIcon from '../../assets/icons/search-icon.svg';
-import addPostIcon from '../../assets/icons/add-post-icon.svg';
-import realsIcon from '../../assets/icons/reals-icon.svg';
-import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
-import styles from './MobileNavigation.module.css';
+import { Link, useLocation } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
+import { NotificationsButton } from "../NotificationsButton";
+import homeIcon from "../../assets/icons/home.svg";
+import searchIcon from "../../assets/icons/search-icon.svg";
+import addPostIcon from "../../assets/icons/add-post-icon.svg";
+import realsIcon from "../../assets/icons/reals-icon.svg";
+import profileEmptyIcon from "../../assets/icons/profile-empty-icon.svg";
+import styles from "./MobileNavigation.module.css";
 
 interface MobileNavigationProps {
   onSearchClick: () => void;
@@ -15,11 +15,11 @@ interface MobileNavigationProps {
   isNotificationsPanelOpen: boolean;
 }
 
-export const MobileNavigation = ({ 
-  onSearchClick, 
-  onCreateClick, 
+export const MobileNavigation = ({
+  onSearchClick,
+  onCreateClick,
   onNotificationsClick,
-  isNotificationsPanelOpen 
+  isNotificationsPanelOpen,
 }: MobileNavigationProps) => {
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
@@ -28,17 +28,23 @@ export const MobileNavigation = ({
     <nav className={styles.mobileNav}>
       <Link
         to="/"
-        className={`${styles.navItem} ${location.pathname === '/' ? styles.active : ''}`}
+        className={`${styles.navItem} ${
+          location.pathname === "/" ? styles.active : ""
+        }`}
       >
         <img src={homeIcon} alt="Главная" className={styles.icon} />
       </Link>
 
-      <button
-        onClick={onSearchClick}
-        className={styles.navItem}
-      >
+      <button onClick={onSearchClick} className={styles.navItem}>
         <img src={searchIcon} alt="Поиск" className={styles.icon} />
       </button>
+
+      <div className={styles.navItem}>
+        <NotificationsButton
+          onClick={onNotificationsClick}
+          isActive={isNotificationsPanelOpen}
+        />
+      </div>
 
       <button
         onClick={onCreateClick}
@@ -47,23 +53,20 @@ export const MobileNavigation = ({
         <img src={addPostIcon} alt="Создать" className={styles.icon} />
       </button>
 
-      <div className={styles.navItem}>
-        <NotificationsButton 
-          onClick={onNotificationsClick}
-          isActive={isNotificationsPanelOpen}
-        />
-      </div>
-
       <Link
         to="/shorts"
-        className={`${styles.navItem} ${location.pathname === '/shorts' ? styles.active : ''}`}
+        className={`${styles.navItem} ${
+          location.pathname === "/shorts" ? styles.active : ""
+        }`}
       >
         <img src={realsIcon} alt="Shorts" className={styles.icon} />
       </Link>
 
       <Link
         to="/profile"
-        className={`${styles.navItem} ${location.pathname === '/profile' ? styles.active : ''}`}
+        className={`${styles.navItem} ${
+          location.pathname === "/profile" ? styles.active : ""
+        }`}
       >
         <img
           src={user?.profilePictureUrl || profileEmptyIcon}
