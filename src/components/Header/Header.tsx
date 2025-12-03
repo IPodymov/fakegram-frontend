@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout } from "../../store/slices/authSlice";
 import { NotificationsDropdown } from "../NotificationsDropdown";
-import logo from "../../assets/images/logo.jpeg";
+import logo from "../../assets/images/logo.png";
 import homeIcon from "../../assets/icons/home.svg";
 import addPostIcon from "../../assets/icons/add-post-icon.svg";
 import profileIcon from "../../assets/icons/profile-icon.svg";
