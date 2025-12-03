@@ -52,3 +52,29 @@
   padding: 0 4px;
   border: 2px solid var(--background-secondary);
 }
+
+@media (max-width: 768px) {
+  .button {
+    padding: 8px;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .button span {
+    display: none;
+  }
+
+  .iconWrapper {
+    width: 24px;
+    height: 24px;
+  }
+
+  .badge {
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+    border-width: 1.5px;
+  }
+}

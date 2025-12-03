@@ -1,19 +1,26 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
+import { NotificationsButton } from '../NotificationsButton';
 import homeIcon from '../../assets/icons/home.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
 import addPostIcon from '../../assets/icons/add-post-icon.svg';
 import realsIcon from '../../assets/icons/reals-icon.svg';
-import settingsIcon from '../../assets/icons/settings-icon.svg';
 import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import styles from './MobileNavigation.module.css';
 
 interface MobileNavigationProps {
   onSearchClick: () => void;
   onCreateClick: () => void;
+  onNotificationsClick: () => void;
+  isNotificationsPanelOpen: boolean;
 }
 
-export const MobileNavigation = ({ onSearchClick, onCreateClick }: MobileNavigationProps) => {
+export const MobileNavigation = ({ 
+  onSearchClick, 
+  onCreateClick, 
+  onNotificationsClick,
+  isNotificationsPanelOpen 
+}: MobileNavigationProps) => {
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
 
@@ -40,6 +47,13 @@ export const MobileNavigation = ({ onSearchClick, onCreateClick }: MobileNavigat
         <img src={addPostIcon} alt="Создать" className={styles.icon} />
       </button>
 
+      <div className={styles.navItem}>
+        <NotificationsButton 
+          onClick={onNotificationsClick}
+          isActive={isNotificationsPanelOpen}
+        />
+      </div>
+
       <Link
         to="/shorts"
         className={`${styles.navItem} ${location.pathname === '/shorts' ? styles.active : ''}`}
@@ -56,13 +70,6 @@ export const MobileNavigation = ({ onSearchClick, onCreateClick }: MobileNavigat
           alt="Профиль"
           className={`${styles.icon} ${styles.profileAvatar}`}
         />
-      </Link>
-
-      <Link
-        to="/settings"
-        className={`${styles.navItem} ${location.pathname === '/settings' ? styles.active : ''}`}
-      >
-        <img src={settingsIcon} alt="Настройки" className={styles.icon} />
       </Link>
     </nav>
   );

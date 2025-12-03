@@ -298,5 +298,93 @@
     left: 0;
     width: 100%;
     max-width: 100%;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .header {
+    padding: 16px 16px 12px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .filters {
+    padding: 12px 16px;
+    gap: 6px;
+  }
+
+  .filterButton {
+    padding: 6px 12px;
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .actions {
+    padding: 10px 16px;
+  }
+
+  .actionButton {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+
+  .notificationItem {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .notificationMessage {
+    font-size: 13px;
+  }
+
+  .notificationTime {
+    font-size: 12px;
+  }
+
+  .deleteButton {
+    opacity: 1;
+    padding: 6px;
+  }
+
+  .empty {
+    padding: 40px 20px;
+  }
+
+  .emptyIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .emptyText {
+    font-size: 16px;
+  }
+
+  .emptySubtext {
+    font-size: 13px;
+  }
+
+  .footer {
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .clearAllButton {
+    padding: 12px 16px;
+    font-size: 14px;
   }
 }
