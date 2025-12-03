@@ -11,6 +11,8 @@ import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import { CreateModal } from '../CreateModal/CreateModal';
 import { SearchPanel } from '../SearchPanel/SearchPanel';
 import { ExplorePanel } from '../ExplorePanel/ExplorePanel';
+import { NotificationsPanel } from '../NotificationsPanel';
+import { NotificationsButton } from '../NotificationsButton';
 import styles from './Sidebar.module.css';
 
 export const Sidebar = () => {
@@ -19,6 +21,7 @@ export const Sidebar = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
   const [isExplorePanelOpen, setIsExplorePanelOpen] = useState(false);
+  const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
 
   const handleCreateClick = () => {
     setIsCreateModalOpen(true);
@@ -27,11 +30,19 @@ export const Sidebar = () => {
   const handleSearchClick = () => {
     setIsSearchPanelOpen(!isSearchPanelOpen);
     setIsExplorePanelOpen(false);
+    setIsNotificationsPanelOpen(false);
   };
 
   const handleExploreClick = () => {
     setIsExplorePanelOpen(!isExplorePanelOpen);
     setIsSearchPanelOpen(false);
+    setIsNotificationsPanelOpen(false);
+  };
+
+  const handleNotificationsClick = () => {
+    setIsNotificationsPanelOpen(!isNotificationsPanelOpen);
+    setIsSearchPanelOpen(false);
+    setIsExplorePanelOpen(false);
   };
 
   const closeModal = () => {
@@ -44,6 +55,10 @@ export const Sidebar = () => {
 
   const closeExplorePanel = () => {
     setIsExplorePanelOpen(false);
+  };
+
+  const closeNotificationsPanel = () => {
+    setIsNotificationsPanelOpen(false);
   };
 
   return (
@@ -94,6 +109,11 @@ export const Sidebar = () => {
             <span>Создать</span>
           </button>
 
+          <NotificationsButton 
+            onClick={handleNotificationsClick}
+            isActive={isNotificationsPanelOpen}
+          />
+
           <Link
             to="/profile"
             className={`${styles.menuItem} ${location.pathname === '/profile' ? styles.active : ''}`}
@@ -121,6 +141,7 @@ export const Sidebar = () => {
       <CreateModal isOpen={isCreateModalOpen} onClose={closeModal} />
       <SearchPanel isOpen={isSearchPanelOpen} onClose={closeSearchPanel} />
       <ExplorePanel isOpen={isExplorePanelOpen} onClose={closeExplorePanel} />
+      <NotificationsPanel isOpen={isNotificationsPanelOpen} onClose={closeNotificationsPanel} />
     </>
   );
 };

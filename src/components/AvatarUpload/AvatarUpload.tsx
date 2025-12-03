@@ -1,6 +1,7 @@
 import { useState, useRef, useImperativeHandle, forwardRef, type ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
+import { getAvatarUrl } from '../../utils/imageUtils';
 import photoIcon from '../../assets/icons/photo-icon.svg';
 import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import styles from './AvatarUpload.module.css';
@@ -72,7 +73,7 @@ export const AvatarUpload = forwardRef<AvatarUploadRef, AvatarUploadProps>((_, r
     fileInputRef.current?.click();
   };
 
-  const currentAvatar = previewUrl || user?.profilePictureUrl || profileEmptyIcon;
+  const currentAvatar = previewUrl || getAvatarUrl(user?.profilePictureUrl, 150) || profileEmptyIcon;
 
   return (
     <div className={styles.container}>

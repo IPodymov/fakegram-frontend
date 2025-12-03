@@ -5,6 +5,7 @@ import { updateUserThunk } from '../../store/thunks/usersThunks';
 import { followersApi } from '../../api';
 import { AvatarUpload, type AvatarUploadRef } from '../../components/AvatarUpload/AvatarUpload';
 import { FollowersModal } from '../../components/FollowersModal/FollowersModal';
+import { getMediaUrl } from '../../utils/imageUtils';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
@@ -223,7 +224,7 @@ export const ProfilePage = () => {
               <div key={post.id} className={styles.postItem}>
                 {post.mediaUrl && (
                   <img
-                    src={post.mediaUrl}
+                    src={getMediaUrl(post.mediaUrl)}
                     alt={post.title || 'Post'}
                     className={styles.postImage}
                   />

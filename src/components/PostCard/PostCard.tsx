@@ -1,4 +1,5 @@
 import type { Post } from '../../types';
+import { getAvatarUrl, getMediaUrl } from '../../utils/imageUtils';
 import styles from './PostCard.module.css';
 
 interface PostCardProps {
@@ -22,7 +23,7 @@ export const PostCard = ({ post }: PostCardProps) => {
       <div className={styles.header}>
         <div className={styles.userInfo}>
           <img
-            src={post.user?.profilePictureUrl || 'https://via.placeholder.com/40'}
+            src={getAvatarUrl(post.user?.profilePictureUrl, 40)}
             alt={post.user?.username}
             className={styles.avatar}
           />
@@ -34,7 +35,7 @@ export const PostCard = ({ post }: PostCardProps) => {
 
       {post.mediaUrl && (
         <div className={styles.mediaContainer}>
-          <img src={post.mediaUrl} alt={post.title || 'Post'} className={styles.media} />
+          <img src={getMediaUrl(post.mediaUrl)} alt={post.title || 'Post'} className={styles.media} />
         </div>
       )}
 

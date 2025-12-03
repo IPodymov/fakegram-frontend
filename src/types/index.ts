@@ -50,6 +50,17 @@ export interface Like {
   createdAt: string;
 }
 
+export interface Notification {
+  id: string;
+  userId: string;
+  type: 'like' | 'follow' | 'comment' | 'new_post' | 'mention';
+  message: string;
+  referenceId: string | null;
+  isRead: boolean;
+  createdAt: string;
+  user?: User;
+}
+
 export interface LoginDto {
   username: string;
   password: string;

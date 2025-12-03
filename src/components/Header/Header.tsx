@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout } from "../../store/slices/authSlice";
+import { NotificationsDropdown } from "../NotificationsDropdown";
 import logo from "../../assets/images/logo.jpeg";
 import homeIcon from "../../assets/icons/home.svg";
 import addPostIcon from "../../assets/icons/add-post-icon.svg";
@@ -38,6 +39,8 @@ export const Header = () => {
                 height="24"
               />
             </Link>
+
+            <NotificationsDropdown />
 
             <Link to="/profile" className={styles.navLink}>
               <img

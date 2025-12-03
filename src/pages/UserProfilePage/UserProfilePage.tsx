@@ -5,6 +5,7 @@ import { fetchUserByIdThunk } from "../../store/thunks/usersThunks";
 import { fetchPostsByUserIdThunk } from "../../store/thunks/postsThunks";
 import { followersApi } from "../../api";
 import { FollowersModal } from "../../components/FollowersModal/FollowersModal";
+import { getAvatarUrl, getMediaUrl } from "../../utils/imageUtils";
 import styles from "./UserProfilePage.module.css";
 
 export const UserProfilePage = () => {
@@ -161,10 +162,10 @@ export const UserProfilePage = () => {
             <div className={styles.avatarWrapper}>
               {profileUser.profilePictureUrl ? (
                 <img
-                  src={profileUser.profilePictureUrl}
-                alt={profileUser.username}
-                className={styles.avatar}
-              />
+                  src={getAvatarUrl(profileUser.profilePictureUrl, 150)}
+                  alt={profileUser.username}
+                  className={styles.avatar}
+                />
             ) : (
               <div className={styles.avatarPlaceholder}>
                 {profileUser.username[0].toUpperCase()}
@@ -319,7 +320,7 @@ export const UserProfilePage = () => {
               <div key={post.id} className={styles.postItem}>
                 {post.mediaUrl && (
                   <img
-                    src={post.mediaUrl}
+                    src={getMediaUrl(post.mediaUrl)}
                     alt={post.title || "Post"}
                     className={styles.postImage}
                   />

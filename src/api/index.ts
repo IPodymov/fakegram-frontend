@@ -172,3 +172,6 @@ export const followersApi = {
     return response.data;
   },
 };
+
+// Export notificationsApi
+export { notificationsApi } from './notificationsApi';
