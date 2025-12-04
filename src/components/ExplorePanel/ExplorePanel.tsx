@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SmartImage } from "../SmartImage";
 import likeIcon from "../../assets/icons/like-icon.svg";
 import commentIcon from "../../assets/icons/comment-icon.svg";
 import styles from "./ExplorePanel.module.css";
@@ -108,7 +109,7 @@ export const ExplorePanel = ({ isOpen, onClose }: ExplorePanelProps) => {
                   className={styles.gridItem}
                 >
                   {post.mediaUrl ? (
-                    <img
+                    <SmartImage
                       src={post.mediaUrl}
                       alt={post.title}
                       className={styles.postImage}

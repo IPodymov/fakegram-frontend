@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { NotificationsButton } from "../NotificationsButton";
+import { SmartImage } from "../SmartImage";
 import homeIcon from "../../assets/icons/home.svg";
 import searchIcon from "../../assets/icons/search-icon.svg";
 import addPostIcon from "../../assets/icons/add-post-icon.svg";
@@ -68,7 +69,7 @@ export const MobileNavigation = ({
           location.pathname === "/profile" ? styles.active : ""
         }`}
       >
-        <img
+        <SmartImage
           src={user?.profilePictureUrl || profileEmptyIcon}
           alt="Профиль"
           className={`${styles.icon} ${styles.profileAvatar}`}

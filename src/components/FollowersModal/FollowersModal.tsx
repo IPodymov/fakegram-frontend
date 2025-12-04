@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { followersApi } from '../../api';
 import { getAvatarUrl } from '../../utils/imageUtils';
+import { SmartImage } from '../SmartImage';
 import type { User } from '../../types';
 import styles from './FollowersModal.module.css';
 
@@ -114,7 +115,7 @@ export const FollowersModal = ({
                 >
                   <div className={styles.userAvatar}>
                     {user.profilePictureUrl ? (
-                      <img
+                      <SmartImage
                         src={getAvatarUrl(user.profilePictureUrl, 44)}
                         alt={user.username}
                         className={styles.avatar}

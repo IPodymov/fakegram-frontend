@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
+import { SmartImage } from '../SmartImage';
 import homeIcon from '../../assets/icons/home.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
 import exploreIcon from '../../assets/icons/explore-icon.svg';
@@ -118,7 +119,7 @@ export const Sidebar = () => {
             to="/profile"
             className={`${styles.menuItem} ${location.pathname === '/profile' ? styles.active : ''}`}
           >
-            <img
+            <SmartImage
               src={user?.profilePictureUrl || profileEmptyIcon}
               alt="Профиль"
               className={`${styles.icon} ${styles.profileAvatar}`}

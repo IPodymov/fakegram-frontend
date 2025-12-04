@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchUsersThunk } from '../../store/thunks/usersThunks';
 import type { RootState, AppDispatch } from '../../store';
 import type { User } from '../../types';
+import { SmartImage } from '../SmartImage';
 import styles from './SearchPanel.module.css';
 
 interface SearchPanelProps {
@@ -121,7 +122,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
                   >
                     <div className={styles.userAvatar}>
                       {user.profilePictureUrl ? (
-                        <img src={user.profilePictureUrl} alt={user.username} />
+                        <SmartImage src={user.profilePictureUrl} alt={user.username} />
                       ) : (
                         <div className={styles.avatarPlaceholder}>
                           {user.username[0].toUpperCase()}
@@ -159,7 +160,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
                 >
                   <div className={styles.userAvatar}>
                     {user.profilePictureUrl ? (
-                      <img src={user.profilePictureUrl} alt={user.username} />
+                      <SmartImage src={user.profilePictureUrl} alt={user.username} />
                     ) : (
                       <div className={styles.avatarPlaceholder}>
                         {user.username[0].toUpperCase()}

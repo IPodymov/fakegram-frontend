@@ -6,6 +6,7 @@ import { followersApi } from '../../api';
 import { AvatarUpload, type AvatarUploadRef } from '../../components/AvatarUpload/AvatarUpload';
 import { FollowersModal } from '../../components/FollowersModal/FollowersModal';
 import { getMediaUrl } from '../../utils/imageUtils';
+import { SmartImage } from '../../components/SmartImage';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
@@ -223,7 +224,7 @@ export const ProfilePage = () => {
             {userPosts.map((post) => (
               <div key={post.id} className={styles.postItem}>
                 {post.mediaUrl && (
-                  <img
+                  <SmartImage
                     src={getMediaUrl(post.mediaUrl)}
                     alt={post.title || 'Post'}
                     className={styles.postImage}

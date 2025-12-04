@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notificationsApi } from '../../api/notificationsApi';
 import { getAvatarUrl } from '../../utils/imageUtils';
+import { SmartImage } from '../SmartImage';
 import type { Notification } from '../../types';
 import styles from './NotificationsDropdown.module.css';
 
@@ -184,7 +185,7 @@ export const NotificationsDropdown = () => {
                     className={`${styles.notificationItem} ${!notification.isRead ? styles.unread : ''}`}
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <img
+                    <SmartImage
                       src={getAvatarUrl(notification.user?.profilePictureUrl, 40)}
                       alt={notification.user?.username || 'User'}
                       className={styles.avatar}
