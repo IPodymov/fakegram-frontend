@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from './store/hooks';
 import { Layout } from './components/Layout/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
+import { CookieConsent } from './components/CookieConsent';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { HomePage } from './pages/HomePage/HomePage';
@@ -9,6 +10,7 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
 import { ShortsPage } from './pages/ShortsPage/ShortsPage';
 import { SettingsPage } from './pages/SettingsPage/SettingsPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import './App.css';
 
 function App() {
@@ -69,10 +71,19 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/terms"
+            element={
+              <ProtectedRoute>
+                <PrivacyPolicyPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <CookieConsent />
     </BrowserRouter>
   );
 }
