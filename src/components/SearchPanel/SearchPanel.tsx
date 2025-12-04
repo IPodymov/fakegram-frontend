@@ -59,7 +59,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated));
     
     // Перейти на профиль пользователя
-    navigate(`/profile/${user.id}`);
+    navigate(`/users/${user.id}`);
     onClose();
   };
 

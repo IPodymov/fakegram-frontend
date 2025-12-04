@@ -76,7 +76,7 @@ export const NotificationsPanel = ({ isOpen, onClose }: NotificationsPanelProps)
     // Переходим к соответствующему контенту
     if (notification.referenceId) {
       if (notification.type === 'follow') {
-        navigate(`/profile/${notification.referenceId}`);
+        navigate(`/users/${notification.referenceId}`);
       } else if (notification.type === 'like' || notification.type === 'comment' || notification.type === 'new_post') {
         console.log('Navigate to post:', notification.referenceId);
       }

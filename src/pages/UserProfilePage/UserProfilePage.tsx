@@ -116,9 +116,37 @@ export const UserProfilePage = () => {
     );
   };
 
-  const handleSuggestClick = () => {
-    // TODO: Реализовать функцию "Предложить другу"
-    alert(`Предложить профиль ${profileUser?.username} другу`);
+  const handleSuggestClick = async () => {
+    if (!profileUser || !userId) return;
+    
+    const profileUrl = `${window.location.origin}/users/${userId}`;
+    
+    try {
+      // Пробуем использовать современный API для копирования
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(profileUrl);
+        alert(`Ссылка на профиль ${profileUser.username} скопирована в буфер обмена!\n\n${profileUrl}`);
+      } else {
+        // Fallback для старых браузеров
+        const textArea = document.createElement('textarea');
+        textArea.value = profileUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          alert(`Ссылка на профиль ${profileUser.username} скопирована!\n\n${profileUrl}`);
+        } catch (err) {
+          console.error('Ошибка копирования:', err);
+          alert(`Ссылка на профиль:\n${profileUrl}`);
+        }
+        document.body.removeChild(textArea);
+      }
+    } catch (err) {
+      console.error('Ошибка при копировании ссылки:', err);
+      alert(`Ссылка на профиль:\n${profileUrl}`);
+    }
   };
 
   const handleFollowersClick = () => {
