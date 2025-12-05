@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { loginThunk } from "../../store/thunks/authThunks";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 import styles from "./LoginForm.module.css";
 
 export const LoginForm = () => {
@@ -27,24 +29,22 @@ export const LoginForm = () => {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="text"
           placeholder="Имя пользователя"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className={styles.input}
           required
           minLength={3}
         />
       </div>
 
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="password"
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={styles.input}
           required
           minLength={6}
         />
@@ -52,9 +52,9 @@ export const LoginForm = () => {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <button type="submit" className={styles.button} disabled={loading}>
-        {loading ? "Вход..." : "Войти"}
-      </button>
+      <Button type="submit" isLoading={loading}>
+        Войти
+      </Button>
     </form>
   );
 };

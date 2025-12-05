@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CreatePublicationForm } from "../CreatePublicationForm/CreatePublicationForm";
+import { Button } from "../ui/Button";
 import styles from "./CreateModal.module.css";
 
 interface CreateModalProps {
@@ -64,9 +65,14 @@ export const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
         return (
           <div className={styles.publicationContent}>
             <div className={styles.header}>
-              <button onClick={handleBackToMenu} className={styles.backButton}>
+              <Button
+                variant="text"
+                fullWidth={false}
+                onClick={handleBackToMenu}
+                className={styles.backButton}
+              >
                 ← Назад
-              </button>
+              </Button>
               <h2 className={styles.title}>Создать публикацию</h2>
             </div>
 
@@ -118,7 +124,7 @@ export const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
                     id="shortVideo"
                     type="file"
                     accept="video/*"
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                   />
                 </label>
               </div>

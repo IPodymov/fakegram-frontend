@@ -4,6 +4,8 @@ import type { ChangeEvent, FormEvent } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { createPostThunk } from "../../store/thunks/postsThunks";
 import { createStoryThunk } from "../../store/thunks/storiesThunks";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 import styles from "./CreatePublicationForm.module.css";
 
 interface CreatePublicationFormProps {
@@ -224,15 +226,11 @@ export const CreatePublicationForm = ({
       {type === "post" ? (
         <>
           <div className={styles.field}>
-            <label htmlFor="title" className={styles.label}>
-              Заголовок
-            </label>
-            <input
+            <Input
               id="title"
-              type="text"
+              label="Заголовок"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className={styles.input}
               placeholder="Введите заголовок..."
               disabled={isLoading}
             />
@@ -324,15 +322,14 @@ export const CreatePublicationForm = ({
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <button
+      <Button
         type="submit"
-        className={styles.submitButton}
         disabled={isLoading}
       >
         {isLoading
           ? "Публикация..."
           : `Опубликовать ${type === "post" ? "пост" : "историю"}`}
-      </button>
+      </Button>
     </form>
   );
 };

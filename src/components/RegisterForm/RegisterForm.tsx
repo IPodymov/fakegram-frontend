@@ -2,6 +2,8 @@ import { useState, useRef, type FormEvent, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { registerThunk } from "../../store/thunks/authThunks";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 import profileEmptyIcon from "../../assets/icons/profile-empty-icon.svg";
 import styles from "./RegisterForm.module.css";
 
@@ -123,23 +125,21 @@ export const RegisterForm = () => {
       </div>
 
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={styles.input}
           required
         />
       </div>
 
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="text"
           placeholder="Имя пользователя (только английские буквы)"
           value={username}
           onChange={handleUsernameChange}
-          className={styles.input}
           required
           minLength={3}
           pattern="[a-zA-Z0-9._]+"
@@ -148,24 +148,22 @@ export const RegisterForm = () => {
       </div>
 
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="password"
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={styles.input}
           required
           minLength={6}
         />
       </div>
 
       <div className={styles.formGroup}>
-        <input
+        <Input
           type="password"
           placeholder="Подтвердите пароль"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className={styles.input}
           required
           minLength={6}
         />
@@ -175,9 +173,9 @@ export const RegisterForm = () => {
         <div className={styles.error}>{validationError || error}</div>
       )}
 
-      <button type="submit" className={styles.button} disabled={loading}>
+      <Button type="submit" isLoading={loading}>
         {loading ? "Регистрация..." : "Зарегистрироваться"}
-      </button>
+      </Button>
     </form>
   );
 };

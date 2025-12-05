@@ -2,6 +2,7 @@ import { useState, useRef, useImperativeHandle, forwardRef, type ChangeEvent } f
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserThunk } from '../../store/thunks/usersThunks';
 import { getAvatarUrl } from '../../utils/imageUtils';
+import { SmartImage } from '../SmartImage';
 import photoIcon from '../../assets/icons/photo-icon.svg';
 import profileEmptyIcon from '../../assets/icons/profile-empty-icon.svg';
 import styles from './AvatarUpload.module.css';
@@ -73,15 +74,16 @@ export const AvatarUpload = forwardRef<AvatarUploadRef, AvatarUploadProps>((_, r
     fileInputRef.current?.click();
   };
 
-  const currentAvatar = previewUrl || getAvatarUrl(user?.profilePictureUrl, 150) || profileEmptyIcon;
+  const currentAvatar = previewUrl || user?.profilePictureUrl;
 
   return (
     <div className={styles.container}>
       <div className={styles.avatarWrapper}>
-        <img
+        <SmartImage
           src={currentAvatar}
           alt={user?.username || 'User'}
           className={styles.avatar}
+          fallback={profileEmptyIcon}
         />
         {loading && (
           <div className={styles.overlay}>

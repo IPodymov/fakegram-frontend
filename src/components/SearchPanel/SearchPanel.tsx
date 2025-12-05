@@ -1,27 +1,32 @@
-import { useState, useEffect } from 'react';
-import type { ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchUsersThunk } from '../../store/thunks/usersThunks';
-import type { RootState, AppDispatch } from '../../store';
-import type { User } from '../../types';
-import { SmartImage } from '../SmartImage';
-import styles from './SearchPanel.module.css';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect } from "react";
+import type { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { searchUsersThunk } from "../../store/thunks/usersThunks";
+import type { RootState, AppDispatch } from "../../store";
+import type { User } from "../../types";
+import { SmartImage } from "../SmartImage";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import styles from "./SearchPanel.module.css";
 
 interface SearchPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const RECENT_SEARCHES_KEY = 'fakegram_recent_searches';
+const RECENT_SEARCHES_KEY = "fakegram_recent_searches";
 
 export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  
-  const { users: searchResults, loading: isLoading } = useSelector((state: RootState) => state.users);
-  
-  const [searchQuery, setSearchQuery] = useState('');
+
+  const { users: searchResults, loading: isLoading } = useSelector(
+    (state: RootState) => state.users
+  );
+
+  const [searchQuery, setSearchQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<User[]>([]);
 
   // Загрузка недавних поисков из localStorage
@@ -31,7 +36,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
       try {
         setRecentSearches(JSON.parse(saved));
       } catch (e) {
-        console.error('Failed to parse recent searches:', e);
+        console.error("Failed to parse recent searches:", e);
       }
     }
   }, []);
@@ -47,25 +52,28 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
     try {
       await dispatch(searchUsersThunk(query));
     } catch (error) {
-      console.error('Search failed:', error);
+      console.error("Search failed:", error);
     }
   };
 
   const handleUserClick = (user: User) => {
     // Добавить в недавние поиски
-    const updated = [user, ...recentSearches.filter(u => u.id !== user.id)].slice(0, 5);
+    const updated = [
+      user,
+      ...recentSearches.filter((u) => u.id !== user.id),
+    ].slice(0, 5);
     setRecentSearches(updated);
-    
+
     // Сохранить в localStorage
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated));
-    
+
     // Перейти на профиль пользователя
     navigate(`/users/${user.id}`);
     onClose();
   };
 
   const clearSearch = () => {
-    setSearchQuery('');
+    setSearchQuery("");
   };
 
   const clearRecentSearches = () => {
@@ -93,8 +101,7 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
         </div>
 
         <div className={styles.searchBox}>
-          <input
-            type="text"
+          <Input
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Поиск пользователей..."
@@ -122,7 +129,10 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
                   >
                     <div className={styles.userAvatar}>
                       {user.profilePictureUrl ? (
-                        <SmartImage src={user.profilePictureUrl} alt={user.username} />
+                        <SmartImage
+                          src={user.profilePictureUrl}
+                          alt={user.username}
+                        />
                       ) : (
                         <div className={styles.avatarPlaceholder}>
                           {user.username[0].toUpperCase()}
@@ -148,9 +158,14 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
             <div className={styles.recent}>
               <div className={styles.recentHeader}>
                 <h3>Недавние</h3>
-                <button onClick={clearRecentSearches} className={styles.clearAllButton}>
+                <Button
+                  variant="text"
+                  fullWidth={false}
+                  onClick={clearRecentSearches}
+                  className={styles.clearAllButton}
+                >
                   Очистить все
-                </button>
+                </Button>
               </div>
               {recentSearches.map((user) => (
                 <button
@@ -160,7 +175,10 @@ export const SearchPanel = ({ isOpen, onClose }: SearchPanelProps) => {
                 >
                   <div className={styles.userAvatar}>
                     {user.profilePictureUrl ? (
-                      <SmartImage src={user.profilePictureUrl} alt={user.username} />
+                      <SmartImage
+                        src={user.profilePictureUrl}
+                        alt={user.username}
+                      />
                     ) : (
                       <div className={styles.avatarPlaceholder}>
                         {user.username[0].toUpperCase()}
